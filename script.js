@@ -1,6 +1,6 @@
-var xJOS = 225;
-var yJOS = 375;
-var snelheidJOS = 17;
+var xDiego = 225;
+var yDiego = 375;
+var snelheidDiego = 17;
 
 function setup() {
   canvas = createCanvas(450,450);
@@ -14,16 +14,16 @@ function draw() {
   background('lavender');
   fill('black');
 
-  yJOS-=snelheidJOS;
-  snelheidJOS -= 0.5;
+  yDiego-=snelheidDiego;
+  snelheidDiego -= 0.5;
 
-  xJOS = constrain(xJOS,75,width - 75);
-  yJOS = constrain(yJOS,75,height - 75);
-  text("x = " + round(xJOS) + " y = " + yJOS + " snelheid = " + snelheidJOS,10,20);
+  xDiego = constrain(xDiego,75,width - 75);
+  yDiego = constrain(yDiego,75,height - 75);
+  text("x = " + round(xDiego) + " y = " + yDiego + " snelheid = " + snelheidDiego,10,20);
 
-  translate(xJOS,yJOS);
+  translate(xDiego,yDiego);
 
-  // in de volgende regels wordt JOS getekend
+  // in de volgende regels wordt Diego getekend
 
   push();
   scale(1); 
@@ -43,6 +43,6 @@ function draw() {
   fill('white');
   arc(0, 40, 80, 40, 0, PI, CHORD);
   pop();
-  // einde tekenen JOS
+  // einde tekenen Diego
 
 }
