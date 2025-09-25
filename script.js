@@ -1,24 +1,24 @@
-var rij = 0;
-var kolom = 0;
+var kater,katerKlein,landschap,kever;
+var keverX;
+var keverY;
+
+function preload() {
+  kater = loadImage("images/brieck.jpg");
+  bomen = loadImage("images/bomen.jpg");
+  kever = loadImage("images/sprites/kever.png");
+}
 
 function setup() {
-  canvas = createCanvas(451,451);
+  canvas = createCanvas(450,450);
   canvas.parent();
-  background('coral');
-  fill('white');
+  keverX = 150;
+  keverY = 100;
 }
 
 function draw() {
-  for (var rij = 0;rij < 450;rij += 50) {
-    for (var kolom = 0;kolom < 450;kolom += 50) {
-      if (rij == 150 && kolom == 300) {
-        fill('orange');
-      }
-      else {
-        fill('white');
-      }
-      rect(kolom,rij,50,50);
-    }
-  }
-  
+  background('grey');  
+  image(kater,25,25,400,400);
+  keverX+=random(-5,5);
+  keverY+=random(-5,5);
+  image(kever,keverX,keverY,30,30);
 }
