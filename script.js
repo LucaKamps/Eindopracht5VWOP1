@@ -1,65 +1,40 @@
-var aantalRijenRaster = 12;
-var aantalKolommenRaster = 18;
-var celGrootte;
+var bomen;
 
-var animatie = [];
-var aantalBeeldjes = 6;
-var nummer = 3;
+var kever = {
+  x: 100,
+  y: 150,
+  sprite: null,
+  naam : "Bart Brink",
 
-var frame;
-var xJos = 400;
-var yJos = 300;
+  beweeg() {
+    this.x += round(random(-5,5));
+    this.y += round(random(-5,5));
+    image(this.sprite,kever.x,kever.y,this.sprite.width / 2,this.sprite.height / 2);
+  }
+};
 
 function preload() {
-  brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
-  for (var b = 0;b < aantalBeeldjes;b++) {
-    frame = loadImage("images/sprites/Jos100px/Jos_" + b + ".png");
-    animatie.push(frame);
-  }
+  bomen = loadImage("images/bomen.jpg");
+  kever.sprite = loadImage("images/sprites/kever.png");
 }
 
-  function setup() {
-  canvas = createCanvas(900,600);
+function setup() {
+  canvas = createCanvas(450,450);
   canvas.parent();
-  frameRate(10);
-  celGrootte = width / aantalKolommenRaster;
+  textFont("Verdana");
+  textSize(14);
+  noStroke();
+  frameRate(2);
 }
 
 function draw() {
-  background(brug);
-  tekenRaster();
+  background(bomen);
 
-  if (keyIsDown(LEFT_ARROW)) {
-    xJos -= celGrootte;
-    nummer= 1;
-  }
-  if (keyIsDown(RIGHT_ARROW)) {
-    xJos += celGrootte;
-    nummer = 2;
-  }
-  if (keyIsDown(UP_ARROW)) {
-    yJos-=celGrootte;
-    nummer = 3;
-  }
-  if (keyIsDown(DOWN_ARROW)) {
-    yJos += celGrootte;
-    nummer=4;
-  }
+  kever.beweeg();
 
-  xJos = constrain(xJos,0,width - celGrootte);
-  yJos = constrain(yJos,0,height - celGrootte);
 
-  image(animatie[nummer],xJos,yJos,celGrootte,celGrootte);
-}
-
-function tekenRaster() {
-  push();
-  noFill();
-  stroke('grey');
-  for (var rij = 0;rij < aantalRijenRaster;rij++) {
-    for (var kolom = 0;kolom < aantalKolommenRaster;kolom++) {
-      rect(kolom*celGrootte,rij*celGrootte,celGrootte,celGrootte);
-    }
-  }
-  pop();
-}
+  fill('cornsilk');
+  rect(0,410,450,40);
+  fill('black');
+  text(kever.naam+" bevindt zich in het punt x = " + kever.x + " en y = " + kever.y + ".",5,435);
+ }
