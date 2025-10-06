@@ -1,128 +1,54 @@
-var raster = {
-  aantalRijen: 6,
-  aantalKolommen: 9,
-  celGrootte: null,
+class Boom {
+  constructor(td,kl,x,kls) {
+  this.leeftijd = td;
+  this.kleur = kl;
+  this.x = x;
+  this.kleurStam = kls;
+  }
 
-  berekenCelGrootte() {
-    this.celGrootte = canvas.width/this.aantalKolommen;
-  },
+  groei() {
+    if (this.leeftijd < 20) {
+      this.leeftijd++;
+    }
+  }
+
   teken() {
     push();
-    noFill();
-    stroke('grey');
-    for (rij=0;rij<this.aantalRijen;rij++) {
-      for (kolom=0;kolom<this.aantalKolommen;kolom++) {
-        rect(kolom*this.celGrootte,rij*this.celGrootte,this.celGrootte,this.celGrootte);
-      }
-    }
+    translate(this.x,375);
+    fill(this.kleurStam);
+    rect(0,0,20 + 2*this.leeftijd,-100 - 10*this.leeftijd);
+    fill(this.kleur);
+    ellipse((20 + 2*this.leeftijd) / 2,-90 - 5*this.leeftijd,80 + 4*this.leeftijd,130 + 10*this.leeftijd);
     pop();
   }
 }
 
-var jos = {
-  x: 400,
-  y: 300,
-  animatie: [],
-  aantalFrames: 6,
-  frameNummer: 3,
-  stapGrootte: null,
-  gehaald: false,
-
-  beweeg() {
-    if (keyIsDown(LEFT_ARROW)) {
-      this.x -= this.stapGrootte;
-      this.frameNummer = 2;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.x += this.stapGrootte;
-      this.frameNummer = 1;
-    }
-    if (keyIsDown(UP_ARROW)) {
-      this.y -= this.stapGrootte;
-      this.frameNummer = 4;
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-      this.y += this.stapGrootte;
-      this.frameNummer = 5;
-    }
-
-    this.x = constrain(this.x,0,canvas.width);
-    this.y = constrain(this.y,0,canvas.height - raster.celGrootte);
-
-    if (this.x == canvas.width) {
-      this.gehaald = true;
-    }
-  },
-
-  wordtGeraakt(vijand) {
-    if (this.x == vijand.x && this.y == vijand.y) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  },
-
-  toon() {
-    image(this.animatie[this.frameNummer],this.x,this.y,raster.celGrootte,raster.celGrootte);
-  }
-}
-
-
-var alice = {
-  x: 700,
-  y: 200,
-  sprite: null,
-  stapGrootte: null,
-
-  beweeg() {
-    this.x += floor(random(-1,2))*this.stapGrootte;
-    this.y += floor(random(-1,2))*this.stapGrootte;
-
-    this.x = constrain(this.x,0,canvas.width - raster.celGrootte);
-    this.y = constrain(this.y,0,canvas.height - raster.celGrootte);
-  },
-
-  toon() {
-    image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
-  }
-}
-
-
-function preload() {
-  brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
-  alice.sprite = loadImage("images/sprites/Alice100px/Alice.png");
-  for (var b = 0;b < jos.aantalFrames;b++) {
-    frameJos = loadImage("images/sprites/Jos100px/Jos_" + b + ".png");
-    jos.animatie.push(frameJos);
-  }
-}
-
 function setup() {
-  canvas = createCanvas(900,600);
+  canvas = createCanvas(800,400);
   canvas.parent();
-  frameRate(10);
-  textFont("Verdana");
-  textSize(90);
-  raster.berekenCelGrootte();
-  jos.stapGrootte = 1*raster.celGrootte;
-  alice.stapGrootte = 1*raster.celGrootte;
+  noStroke();
+  frameRate(1);
+
+  boom1 = new Boom(1,'olive',130,'darkgreen');
+  boom2 = new Boom(5,'forestgreen',300,'birleybrown');
+  boom3 = new Boom(3,'yellowgreen',600,'yellowgreen');
+  boom4 = new Boom(10,'darkgreen',450,'red');
+  boom5 = new Boom(15,'seagreen',550,'brown');
 }
 
 function draw() {
-  background(brug);
-  raster.teken();
-  jos.beweeg();
-  alice.beweeg();
-  jos.toon();
-  alice.toon();
-  if (jos.wordtGeraakt(alice)) {
-    noLoop();
-  }
-  if (jos.gehaald) {
-    background('green');
-    fill('white');
-    text("Je hebt gewonnen!",30,300);
-    noLoop();
-  }
+  background('orange');
+  fill('wheat');
+  rect(0,350,canvas.width,canvas.height - 350);
+  boom1.teken();
+  boom2.teken();
+  boom3.teken();
+  boom4.teken();
+  boom5.teken();
+
+  boom1.groei();
+  boom2.groei();
+  boom3.groei();
+  boom4.groei();
+  boom5.groei();
 }
