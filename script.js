@@ -1,30 +1,56 @@
-var aantalLagen = 100;
+var aantalLagen = 5;
 var breedte = 90;
 var hoogte;
 
 function setup() {
-  breedte = 900/aantalLagen
-  hoogte = breedte/2;
-  canvas = createCanvas(aantalLagen*breedte + 1,aantalLagen*hoogte + 1);
-  background('silver');
-  fill('lightslategray');
-  stroke('darkslategray');  
+  hoogte = breedte / 2;
+  canvas = createCanvas(800,600);
   canvas.parent();
   noLoop();
 }
 
 function draw() {
-  translate(0,height - hoogte);
-  tekenPiramide(aantalLagen);
+    tekenKamer(1);
 }
 
-function tekenPiramide(n) {
-  if (n>0) {
-    for (var nr = 0;nr < n;nr++) {
-      rect(nr*breedte,0,breedte,hoogte);
-    }
-    translate(breedte / 2,-hoogte);
-    n--;
-    tekenPiramide(n);
-  }
+function tekenKamer(s) {
+    scale(s);
+    fill('red');
+    noStroke();
+    rect(0,0,800,600);
+    fill('blue');
+    rect(0,0,400,600);
+    stroke(1);
+    fill('mediumseagreen');
+    rect(50,200,250,400);
+    fill('lightyellow');
+    rect(70,220,210,160);
+    noStroke();
+    fill('brown');
+    ellipse(600,525,150);
+    translate(170,100);
+    tekenBloem();
+    translate(-170,-100);
+    fill('black');
+    rect(340,90,420,320);
+
+    translate(350,100);
+    tekenKamer(0.5);
+}
+
+function tekenBloem() {
+    var aantal = 25;
+     push();
+     colorMode(RGB, 255, 255, 255, 1);
+     fill(178, 34, 34,.7);
+     for (var n = 0;n < aantal;n++) {
+         ellipse(0,0,150,20);
+         rotate(360 / aantal);
+     }
+     fill(255, 195, 0,.5);
+     for (var n = 0;n < aantal;n++) {
+         rect(0,0,35,35)
+         rotate(360 / aantal);
+     }
+     pop();
 }
