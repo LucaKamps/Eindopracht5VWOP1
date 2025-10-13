@@ -1,6 +1,6 @@
 // hier wordt de klasse Raster gedefinieerd
 class Raster {
-  constructor(r,k) {
+  constructor() {
     this.aantalRijen = 12;
     this.aantalKolommen = 18;
     this.celGrootte = null;
@@ -16,7 +16,7 @@ class Raster {
   teken() {
     push();
     noFill();
-    stroke('grey');
+    stroke('blue');
     for (var rij = 0;rij < this.aantalRijen;rij++) {
       for (var kolom = 0;kolom < this.aantalKolommen;kolom++) {
         rect(kolom*this.celGrootte,rij*this.celGrootte,this.celGrootte,this.celGrootte);
@@ -35,7 +35,18 @@ class Jos {
     this.frameNummer =  3;
     this.stapGrootte = null;
     this.gehaald = false;
+    this.levens = 3;
+   }
+  
+  // teken het aantal levens
+  tekenLevens() {
+  fill('Black');
+  textAlign(LEFT,TOP);
+  textSize(20);
+  textFont('Verdana');
+  text("Levens: " + this.levens, 10, 20)
   }
+  
   // beweeg Jos met de pijltjestoetsen
 
   beweeg() {
@@ -67,20 +78,51 @@ class Jos {
 
   wordtGeraakt(vijand) {
     if (this.x == vijand.x && this.y == vijand.y) {
-      return true;
+    this.levens = this.levens - 1;
     }
-    else {
-      return false;
+    if (this.levens == 0) {
+        this.nietGehaald = true;
     }
   }
 
   toon() {
-    image(this.animatie[this.frameNummer],this.x,this.y,raster.celGrootte,raster.celGrootte);
+image(this.animatie[this.frameNummer],this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
-}  
+}
+// hier wordt de klasse piramide gedefinieerd
+class piramide {
+  constructor(x,y){
+  this.aantalLagen = 5;
+  this.breedte = 90;
+  this.hoogte = null;
+}
+}
+  function setup() {
+    hoogte = breedte/2;
+    canvas = createCanvas(this.aantalLagen*this.breedte + 1,tis.aantalLagen*this.hoogte + 1);
+    background('silver');
+    fill('lightslategray');
+    stroke('darkslategray');  
+    canvas.parent('');
+    noLoop();
+  }
 
+  function draw() {
+    translate(0,height - this.hoogte);
+    tekenPiramide(this.aantalLagen);
+  }
+
+  function tekenPiramide(n) {
+    if (n>0) {
+      for (var nr = 0;nr < n;nr++) {
+        rect(nr*this.breedte,0,this.breedte,this.hoogte);
+      }
+      translate(this.breedte / 2,-this.hoogte);
+      n--;
+      tekenPiramide(n);
+    }
+  }
 // hier wordt de klasse Vijand gedefinieerd
-
 class Vijand {
   constructor(x,y) {
     this.x = x;
@@ -126,7 +168,6 @@ function setup() {
     frameEve = loadImage("images/sprites/Eve100px/Eve_" + b + ".png");
     eve.animatie.push(frameEve);
   }
-
   // Extra vijanden Alice en Bob
 
   alice = new Vijand(700,200);
@@ -142,12 +183,10 @@ function setup() {
   cindy.stapGrootte = 1*eve.stapGrootte;
   cindy.sprite = loadImage("images/sprites/Alice100px/Alice.png");
 }
-
-// hier wordt het spel getekend
-
 function draw() {
   background(brug);
   raster.teken();
+  eve.tekenLevens();
   eve.beweeg();
   alice.beweeg();
   bob.beweeg();
@@ -156,6 +195,7 @@ function draw() {
   alice.toon();
   bob.toon();
   cindy.toon();
+  
 
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob) || eve.wordtGeraakt(cindy)){
     noLoop();
