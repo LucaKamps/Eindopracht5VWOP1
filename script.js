@@ -15,14 +15,18 @@ class Raster {
   teken() {
     push();
     noFill();
-    stroke('blue');
+    stroke('grey');
     for (var rij = 0; rij < this.aantalRijen; rij++) {
       for (var kolom = 0; kolom < this.aantalKolommen; kolom++) {
+         if (rij == 0 || rij == 17 || kolom == 0 || rij == 14) {
+           fill ('blue')
+          stroke('black');
         rect(kolom * this.celGrootte, rij * this.celGrootte, this.celGrootte, this.celGrootte);
       }
     }
     pop();
   }
+}
 }
 
 // hier wordt de klasse Jos gedefinieerd
