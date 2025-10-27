@@ -86,10 +86,9 @@ class Piramide {
     this.breedte = breedte;
     this.hoogte = breedte / 2;
   }
-
-  tekenOmgekeerd() {
-    push();
-    fill('lightslategray');
+  tekenOmgekeerd() { 
+    push(); 
+    fill('lightslategray'); 
     stroke('darkslategray');
     translate(this.x, this.y);
 
@@ -105,6 +104,40 @@ class Piramide {
   }
 }
 
+// klasse bal
+class Bal {
+  constructor(a, b){
+    diameter = 20;
+    straal = null;
+    x = 25 + Int(random(1,16)) * 100;
+    y = 25 + Int(random(1,8)) * 100;
+    snelheidX = 8;
+    snelheidY = 5;
+    demping = 1.0;
+    a = 200;
+    b = 200;
+  }
+
+  beweeg() {
+
+      this.x += this.snelheidX;
+      this.y += this.snelheidY;
+
+      if (this.x <= this.straal || this.x >= canvas.width - this.straal) {
+        this.snelheidX *= -this.demping;
+      }
+
+      if (this.y <= this.straal || this.y >= canvas.height - this.straal) {
+        this.snelheidY *= -this.demping;
+        this.snelheidX *= this.demping;
+      }
+   }
+
+  teken() {
+    fill('white');
+    ellipse(this.x,this.y,this.diameter);
+}
+}
 // Klasse Vijand
 class Vijand {
   constructor(x, y) {
@@ -130,7 +163,7 @@ let brug;
 function preload() {
   brug = loadImage('images/backgrounds/dame_op_brug_1800.jpg');
 }
-let raster, eve, alice, bob, cindy, piramide;
+let raster, eve, alice, bob, cindy, piramide, bal;
 
 // functie setup
 function setup() {
@@ -164,6 +197,8 @@ function setup() {
   cindy.sprite = loadImage('images/sprites/Alice100px/Alice.png');
 
   piramide = new Piramide(100, 100, 5, 90);
+
+  // bal = new Bal(200, 200);
 }
 
 // hier wordt alles getekend en in beweging gebracht
@@ -178,19 +213,19 @@ function draw() {
   } else {
     background(brug);      
   }
+  piramide.tekenOmgekeerd()
   raster.teken();
-  piramide.tekenOmgekeerd();
-
   eve.tekenLevens();
   eve.beweeg();
   alice.beweeg();
   bob.beweeg();
   cindy.beweeg();
-
+  // bal.beweeg();
   eve.toon();
   alice.toon();
   bob.toon();
   cindy.toon();
+  // bal.teken();
 
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob) || eve.wordtGeraakt(cindy)) {
   
