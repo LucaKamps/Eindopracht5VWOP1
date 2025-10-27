@@ -71,6 +71,13 @@ class Jos {
     if (this.levens <= 0) this.nietGehaald = true;
     return false;
   }
+  wordtbalGeraakt(bal) {
+    if (dist(this.x, this.y, bal.x, bal.y) < raster.celGrootte / 2) {
+      this.levens += 1;
+      return true;
+    }
+    return false;
+  }
 
   toon() {
     image(this.animatie[this.frameNummer], this.x, this.y, raster.celGrootte, raster.celGrootte);
@@ -107,36 +114,33 @@ class Piramide {
 // klasse bal
 class Bal {
   constructor(a, b){
-    diameter = 20;
-    straal = null;
-    x = 25 + Int(random(1,16)) * 100;
-    y = 25 + Int(random(1,8)) * 100;
-    snelheidX = 8;
-    snelheidY = 5;
-    demping = 1.0;
-    a = 200;
-    b = 200;
+    this.diameter = 20;
+    this.straal = this.diameter / 2;
+    this.x = 25 + int(random(1,16)) * 50;
+    this.y = 25 + int(random(1,8)) * 50;
+    this.snelheidX = 8;
+    this.snelheidY = 5;
+    this.demping = 1.0;
   }
 
   beweeg() {
+    this.x += this.snelheidX;
+    this.y += this.snelheidY;
 
-      this.x += this.snelheidX;
-      this.y += this.snelheidY;
+    if (this.x <= this.straal || this.x >= width - this.straal) {
+      this.snelheidX *= -this.demping;
+    }
 
-      if (this.x <= this.straal || this.x >= canvas.width - this.straal) {
-        this.snelheidX *= -this.demping;
-      }
-
-      if (this.y <= this.straal || this.y >= canvas.height - this.straal) {
-        this.snelheidY *= -this.demping;
-        this.snelheidX *= this.demping;
-      }
-   }
+    if (this.y <= this.straal || this.y >= height - this.straal) {
+      this.snelheidY *= -this.demping;
+      this.snelheidX *= this.demping;
+    }
+  }
 
   teken() {
     fill('white');
-    ellipse(this.x,this.y,this.diameter);
-}
+    ellipse(this.x, this.y, this.diameter);
+  }
 }
 // Klasse Vijand
 class Vijand {
@@ -198,7 +202,7 @@ function setup() {
 
   piramide = new Piramide(100, 100, 5, 90);
 
-  // bal = new Bal(200, 200);
+  bal = new Bal(200, 200);
 }
 
 // hier wordt alles getekend en in beweging gebracht
@@ -220,12 +224,12 @@ function draw() {
   alice.beweeg();
   bob.beweeg();
   cindy.beweeg();
-  // bal.beweeg();
+  bal.beweeg();
   eve.toon();
   alice.toon();
   bob.toon();
   cindy.toon();
-  // bal.teken();
+  bal.teken();
 
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob) || eve.wordtGeraakt(cindy)) {
   
